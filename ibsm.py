@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from itertools import zip_longest
 from sys import argv, stderr
 from base64 import b64decode as de, b64encode as en
 
@@ -9,6 +10,8 @@ DEBUG = False
 def dprint(*args, **kwargs):
     if DEBUG:
         print(*args, file=stderr, **kwargs)
+
+save_key = ["level", "money"]
 
 def main(save_code: str):
     print()
@@ -23,6 +26,11 @@ def main(save_code: str):
     sp = d.split(',')
     dprint(sp)
     sp[0] = "420"
+    sp[1] = str(float(sp[1])*1_000_000_000)
+    sp[-5] = str(float(sp[-5])*1_000_000_000) # this is skill points
+    for key, value in zip_longest(save_key, sp):
+        print(f"{key or "???"}: {float(value) if value != '' else 0:,}")
+        print(f"{key or "???"}: {float(value) if value != '' else 0:,}", file=open("save_code_expanded.tmp.txt", "a"))
     joined = ','.join(sp)
     e = joined.encode()
     e = en(e).decode()
