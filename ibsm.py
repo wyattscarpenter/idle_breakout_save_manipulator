@@ -25,11 +25,12 @@ def main(save_code: str):
     dprint(d)
     sp = d.split(',')
     dprint(sp)
-    x = lambda s: str(float(s)*1_000_000_000)
+    def x(s:str, i=1_000_000_000):
+      return str(float(s)*i)
     sp[0] = "420"
-    sp[1] = x(sp[1])
-    sp[2] = x(sp[2])
-    sp[-5] = str(float(sp[-5])*1_000_000_000) # this is skill points
+    sp[1] = x(sp[1], 1_000)
+    sp[2] = x(sp[2], 1_000_000_000_1_000_000_000)
+    sp[-5] = x(sp[-5]) # this is skill points
     for key, value in zip_longest(save_key, sp):
         print(f"{key or "???"}: {float(value) if value != '' else 0:,}")
         print(f"{key or "???"}: {float(value) if value != '' else 0:,}", file=open("save_code_expanded.tmp.txt", "a"))
